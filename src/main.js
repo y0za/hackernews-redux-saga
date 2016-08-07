@@ -7,6 +7,7 @@ import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import rootReducer from './reducers'
 import rootSaga from './sagas'
+import * as actions from './actions'
 
 const sagaMiddleware = createSagaMiddleware()
 const store = createStore(
@@ -21,3 +22,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 )
+
+store.dispatch(actions.requestTopStories())
