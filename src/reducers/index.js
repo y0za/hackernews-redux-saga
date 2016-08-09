@@ -37,6 +37,10 @@ function nextPage(state = initialState.nextPage, { type }) {
   }
 }
 
+export function getNextPage(state) {
+  return state.nextPage
+}
+
 export default combineReducers({
   app,
   nextPage
