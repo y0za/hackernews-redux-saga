@@ -1,4 +1,5 @@
 import { take, put, call, select, fork } from 'redux-saga/effects'
+import { eventChannel } from 'redux-saga'
 import { getNextPage } from '../reducers'
 import * as actions from '../actions'
 import * as api from '../api'
@@ -14,6 +15,31 @@ export function* fetchTopStories() {
   }
 }
 
+export function* infiniteScroll() {
+  const offset = 100
+  const chan = yield call(scrollChannel, offset)
+  while (true) {
+    yield take(chan)
+    yield put(actions.requestTopStories())
+  }
+}
+
+export function scrollChannel(offset) {
+  return eventChannel((emit) => {
+    window.addEventListener('scroll', () => {
+      const scrollTop = document.body.scrollTop
+      const bodyTop = document.body.clientHeight - window.innerHeight
+      if (scrollTop >= bodyTop - offset) {
+        emit(scrollTop)
+      }
+    }, false)
+
+    return () => {
+    }
+  })
+}
+
 export default function* rootSaga() {
   yield fork(fetchTopStories)
+  yield fork(infiniteScroll)
 }
