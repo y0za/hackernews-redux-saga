@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node build/server.js",
+    "clean": "rimrf dist/**",
+    "build:production": "cross-env NODE_ENV=production webpack --progress --display-modules --config build/webpack.prod.conf.js",
+    "build": "npm-run-all -s clean build:production",
     "test": "mocha --recursive --require babel-register tests"
   },
   "repository": {
@@ -26,12 +29,16 @@
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-2": "^6.13.0",
     "babel-register": "^6.11.6",
+    "cross-env": "^2.0.1",
     "express": "^4.14.0",
     "mocha": "^3.0.1",
+    "npm-run-all": "^3.0.0",
     "power-assert": "^1.4.1",
+    "rimraf": "^2.5.4",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1",
-    "webpack-hot-middleware": "^2.12.2"
+    "webpack-hot-middleware": "^2.12.2",
+    "webpack-merge": "^0.14.1"
   },
   "dependencies": {
     "firebase": "<3.0.0",
